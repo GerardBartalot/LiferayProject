@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.example.test.model.Test">
+		<field name="testId" type="long" />
+		<field name="name" type="String" />
+		<field name="description" type="String" />
+		<field name="testDate" type="Date" />
+		<field name="status" type="Integer" />
+		<field name="companyId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="priority" type="Integer" />
+		<field name="dueDate" type="Date" />
+	</model>
+	<model name="com.liferay.training.gradebook.model.Test">
+		<field name="testId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="title" type="String" />
+		<field name="description" type="String" />
+		<field name="dueDate" type="Date" />
+	</model>
+</model-hints>

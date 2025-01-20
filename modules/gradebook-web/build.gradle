@@ -1,0 +1,26 @@
+dependencies {
+	// Liferay dependencies
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+
+	// CSS Builder (for frontend)
+	cssBuilder group: "com.liferay", name: "com.liferay.css.builder", version: "3.1.4"
+
+	// Frontend dependencies
+	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib.clay"
+	compileOnly group: "com.liferay", name: "com.liferay.petra.function"
+
+	// Portal kernel dependencies
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
+
+	// Servlet API (for portlets)
+	compileOnly group: "javax.portlet", name: "portlet-api"
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+	compileOnly group: "jstl", name: "jstl"
+
+	// OSGi dependencies
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+
+	// Project specific dependencies
+	compileOnly project(":modules:gradebook:gradebook-api")
+}

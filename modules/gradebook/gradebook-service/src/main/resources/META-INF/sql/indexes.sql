@@ -1,0 +1,1 @@
+create index IX_5E75FE25 on Test_Test (groupId);
