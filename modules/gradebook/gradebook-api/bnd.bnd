@@ -1,11 +1,10 @@
 Bundle-Name: gradebook-api
-Bundle-SymbolicName: com.example.test.api
+Bundle-SymbolicName: com.liferay.training.gradebook.api
 Bundle-Version: 1.0.0
 Export-Package:\
-    com.example.test.exception,\
-    com.example.test.model,\
-    com.example.test.service,\
-    com.example.test.service.persistence
-    com.example.test.validator
+	com.liferay.training.gradebook.exception,\
+	com.liferay.training.gradebook.model,\
+	com.liferay.training.gradebook.service,\
+	com.liferay.training.gradebook.service.persistence
 -check: EXPORTS
 -includeresource: META-INF/service.xml=../gradebook-service/service.xml

@@ -1,5 +1,5 @@
-create table Test_Test (
-	testId LONG not null primary key,
+create table Gradebook_Assignment (
+	assignmentId LONG not null primary key,
 	groupId LONG,
 	companyId LONG,
 	userId LONG,

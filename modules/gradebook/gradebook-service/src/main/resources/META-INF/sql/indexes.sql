@@ -1,1 +1,1 @@
-create index IX_5E75FE25 on Test_Test (groupId);
+create index IX_14D546B8 on Gradebook_Assignment (groupId);

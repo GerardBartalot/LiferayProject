@@ -6,10 +6,11 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.example.test.service.TestService;
 import com.example.constants.GradebookWebPortletKeys;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+
+import com.liferay.training.gradebook.service.AssignmentService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 /**
@@ -34,12 +35,12 @@ public class DeleteAssignmentMVCActionCommand extends BaseMVCActionCommand {
         // Get assignment id from request.
         long assignmentId = ParamUtil.getLong(actionRequest, "assignmentId");
         // Call service to delete the assignment.
-        _testService.deleteAssignment(assignmentId);
+        _assignmentService.deleteAssignment(assignmentId);
         // Set success message.
         SessionMessages.add(actionRequest, "assignmentDeleted");
     }
 
     @Reference
-    protected TestService _testService;
+    protected AssignmentService _assignmentService;
 }
 

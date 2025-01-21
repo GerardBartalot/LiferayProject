@@ -3,7 +3,7 @@
 <%@ include file="init.jsp"%>
 
 <liferay-ui:error key="serviceErrorDetails">
-	<% PortletRequest liferayPortletRequest; %><liferay-ui:message arguments='<%= SessionErrors.get(liferayPortletRequest, "serviceErrorDetails") %>' key="error.assignment-service-error" />
+	<% PortletRequest liferayPortletRequest = null; %><liferay-ui:message arguments='<%= SessionErrors.get(liferayPortletRequest, "serviceErrorDetails") %>' key="error.assignment-service-error" />
 </liferay-ui:error>
 
 <liferay-ui:success key="assignmentAdded" message="assignment-added-successfully" />

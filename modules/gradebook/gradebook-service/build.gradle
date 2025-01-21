@@ -1,23 +1,12 @@
 dependencies {
-    // Dependencia del API del proyecto
-    api project(":modules:gradebook:gradebook-api")
+	api project(":modules:gradebook:gradebook-api")
 
-    // Dependencia para la API de Liferay
-    compileOnly group: "com.liferay.portal", name: "release.portal.api"
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
 }
 
 buildService {
-    // Ubicación del directorio de la API para Service Builder
-    apiDir = "./gradebook-api/src/main/java"
-
-    // Ubicación del directorio de pruebas de integración (opcional)
-    testDir = "./gradebook-test/src/testIntegration/java"
+	apiDir = "../gradebook-api/src/main/java"
+	testDir = "../gradebook-test/src/testIntegration/java"
 }
 
 group = "com.liferay.training.gradebook"
-
-// Configuración para asegurar compatibilidad con JDK 8, ya que el código generado usa Jodd
-tasks.withType(JavaCompile).configureEach {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
