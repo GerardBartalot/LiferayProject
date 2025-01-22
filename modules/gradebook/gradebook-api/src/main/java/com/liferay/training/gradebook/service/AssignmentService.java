@@ -13,11 +13,7 @@ import com.liferay.portal.kernel.service.BaseService;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
-import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.training.gradebook.model.Assignment;
 import org.osgi.annotation.versioning.ProviderType;
-
-import java.util.List;
 
 /**
  * Provides the remote service interface for Assignment. Methods of this

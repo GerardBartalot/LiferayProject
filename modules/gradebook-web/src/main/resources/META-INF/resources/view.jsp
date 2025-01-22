@@ -1,11 +1,91 @@
-<%@ taglib prefix="portlet" uri="http://java.sun.com/portlet_2_0" %>
-<%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
-<%@ include file="/META-INF/resources/init.jsp" %>
+<%@ include file="init.jsp"%>
+<div class="container-fluid-1280">
+    <h1><liferay-ui:message key="Assignments" /></h1>
+    <%-- Clay management toolbar. --%>
+    <clay:management-toolbar
+            disabled="${assignmentCount eq 0}"
+            displayContext="${assignmentsManagementToolbarDisplayContext}"
+            itemsTotal="${assignmentCount}"
+            searchContainerId="assignmentEntries"
+            selectable="false"
+    />
+    <%-- Search container. --%>
+    <liferay-ui:search-container
+            emptyResultsMessage="no-assignments"
+            id="assignmentEntries"
+            iteratorURL="${portletURL}"
+            total="${assignmentCount}">
+        <liferay-ui:search-container-results results="${assignments}" />
+        <liferay-ui:search-container-row
+                className="com.liferay.training.gradebook.model.Assignment"
+                modelVar="entry">
 
-<h1>¡Bienvenido a mi Portlet!</h1>
+            <%-- Generate assignment view URL. --%>
+            <portlet:renderURL var="viewAssignmentURL">
+                <portlet:param name="mvcRenderCommandName" value="<%=MVCCommandNames.VIEW_ASSIGNMENT %>" />
+                <portlet:param name="redirect" value="${currentURL}" />
+                <portlet:param name="assignmentId" value="${entry.assignmentId}" />
+            </portlet:renderURL>
+            <c:choose>
+                <%-- Descriptive (list) view --%>
+                <c:when
+                        test='${assignmentsManagementToolbarDisplayContext.getDisplayStyle().equals("descriptive")}'>
+                    <%-- User --%>
+                    <liferay-ui:search-container-column-user
+                            showDetails="<%=false%>"
+                            userId="<%=entry.getUserId()%>"
+                    />
+                    <liferay-ui:search-container-column-text colspan="<%=2%>">
+                        <%
+                            String modifiedDateDescription =
+                                    LanguageUtil.getTimeDescription(
+                                            request, System.currentTimeMillis()
+                                                    - entry.getModifiedDate().getTime(), true);
+                        %>
+                        <h5 class="text-default">
+                            <liferay-ui:message
+                                    arguments="<%=new String[] {entry.getUserName(), modifiedDateDescription}%>"
+                                    key="x-modified-x-ago" />
+                        </h5>
+                        <h4>
+                            <aui:a href="${viewAssignmentURL}">
+                                ${entry.title}
+                            </aui:a>
+                        </h4>
+                    </liferay-ui:search-container-column-text>
+                    <liferay-ui:search-container-column-jsp
+                            path="/assignment/entry_actions.jsp" />
+                </c:when>
+                <%-- Card view --%>
 
-<liferay-ui:message key="welcome-message" />
+                <%-- Table view --%>
+                <c:otherwise>
+                    <liferay-ui:search-container-column-text
+                            href="${viewAssignmentURL}"
+                            name="title"
+                            value="<%= entry.getTitle() %>"
+                    />
+                    <liferay-ui:search-container-column-user
+                            name="author"
+                            userId="${entry.userId}"
+                    />
+                    <liferay-ui:search-container-column-date
+                            name="create-date"
+                            property="createDate"
+                    />
+                    <liferay-ui:search-container-column-jsp
+                            name="actions"
+                            path="/assignment/entry_actions.jsp"
+                    />
+                </c:otherwise>
+            </c:choose>
 
-<portlet:actionURL var="sampleActionURL">
-	<portlet:param name="cmd" value="doSomething" />
-</portlet:actionURL>
+        </liferay-ui:search-container-row>
+
+        <%-- Iterator / Paging --%>
+        <liferay-ui:search-iterator
+                displayStyle="${assignmentsManagementToolbarDisplayContext.getDisplayStyle()}"
+                markupView="lexicon"
+        />
+    </liferay-ui:search-container>
+</div>

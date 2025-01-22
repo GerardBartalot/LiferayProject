@@ -1,4 +1,4 @@
-package com.example.constants;
+package com.liferay.training.gradebook.web.constants;
 /**
  * @author liferay
  */
