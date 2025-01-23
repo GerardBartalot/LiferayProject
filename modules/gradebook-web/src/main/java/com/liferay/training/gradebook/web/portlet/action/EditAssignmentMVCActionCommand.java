@@ -5,6 +5,8 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.training.gradebook.exception.AssignmentValidationException;
@@ -44,14 +46,19 @@ public class EditAssignmentMVCActionCommand extends BaseMVCActionCommand {
         String description = ParamUtil.getString(actionRequest, "description", "");
         Date dueDate = ParamUtil.getDate(actionRequest, "dueDate", DateFormatFactoryUtil.getSimpleDateFormat("MM-dd-YYYY"));
         try {
-
             // Call the service to update the assignment
 
             _assignmentLocalService.updateAssignment(
                     assignmentId, title, description, dueDate, serviceContext);
+
+            // Set the success message.
+            SessionMessages.add(actionRequest, "assignmentUpdated");
             sendRedirect(actionRequest, actionResponse);
         }
         catch (AssignmentValidationException ave) {
+
+            // Get error messages from the service layer.
+            ave.getErrors().forEach(key -> SessionErrors.add(actionRequest, key));
 
             ave.printStackTrace();
 
@@ -60,11 +67,16 @@ public class EditAssignmentMVCActionCommand extends BaseMVCActionCommand {
         }
         catch (PortalException pe) {
 
+            // Get error messages from the service layer.
+            SessionErrors.add(actionRequest, "serviceErrorDetails", pe);
+
             pe.printStackTrace();
             actionResponse.setRenderParameter(
                     "mvcRenderCommandName", MVCCommandNames.EDIT_ASSIGNMENT);
         }
     }
+
     @Reference
     protected AssignmentLocalService _assignmentLocalService;
+
 }

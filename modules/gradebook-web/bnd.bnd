@@ -1,7 +1,7 @@
 Bundle-Name: gradebook-web
 Bundle-SymbolicName: com.example
 Bundle-Version: 1.0.0
-Export-Package: com.example.constants
+Export-Package: com.liferay.training.gradebook.web.constants
 Provide-Capability:\
 	liferay.language.resources;\
 		resource.bundle.base.name="content.Language"

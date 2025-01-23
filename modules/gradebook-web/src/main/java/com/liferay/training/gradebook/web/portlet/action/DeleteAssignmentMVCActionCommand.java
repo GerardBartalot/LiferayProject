@@ -43,6 +43,8 @@ public class DeleteAssignmentMVCActionCommand extends BaseMVCActionCommand {
             SessionErrors.add(actionRequest, "serviceErrorDetails", pe);
         }
     }
+
     @Reference
     protected AssignmentLocalService _assignmentLocalService;
+
 }

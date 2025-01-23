@@ -15,7 +15,10 @@ import com.liferay.training.gradebook.model.Assignment;
 import com.liferay.training.gradebook.service.base.AssignmentLocalServiceBaseImpl;
 import java.util.Date;
 import java.util.List;
+
+import com.liferay.training.gradebook.validator.AssignmentValidator;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 @Component(
 		property = "model.class.name=com.liferay.training.gradebook.model.Assignment",
@@ -25,6 +28,9 @@ public class AssignmentLocalServiceImpl extends AssignmentLocalServiceBaseImpl {
 
 	public Assignment addAssignment(long groupId, String title, String description,
 									Date dueDate, ServiceContext serviceContext) throws PortalException {
+		// Validate assignment parameters.
+		_assignmentValidator.validate(title, description, dueDate);
+
 		// Get group and user.
 		Group group = groupLocalService.getGroup(groupId);
 		long userId = serviceContext.getUserId();
@@ -49,6 +55,9 @@ public class AssignmentLocalServiceImpl extends AssignmentLocalServiceBaseImpl {
 
 	public Assignment updateAssignment(long assignmentId, String title,
 									   String description, Date dueDate, ServiceContext serviceContext) throws PortalException {
+		// Validate assignment parameters.
+		_assignmentValidator.validate(title, description, dueDate);
+
 		// Get the Assignment by id.
 		Assignment assignment = getAssignment(assignmentId);
 		// Set updated fields and modification date.
@@ -116,4 +125,8 @@ public class AssignmentLocalServiceImpl extends AssignmentLocalServiceBaseImpl {
 	public int dslQueryCount(DSLQuery dslQuery) {
 		return 0;
 	}
+
+	@Reference
+	AssignmentValidator _assignmentValidator;
+
 }

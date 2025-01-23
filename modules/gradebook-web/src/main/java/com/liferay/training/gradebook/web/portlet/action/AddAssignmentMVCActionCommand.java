@@ -5,6 +5,8 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -50,20 +52,33 @@ public class AddAssignmentMVCActionCommand extends BaseMVCActionCommand {
 
             _assignmentLocalService.addAssignment(
                     themeDisplay.getScopeGroupId(), title, description, dueDate, serviceContext);
+
+            // Set the success message.
+            SessionMessages.add(actionRequest, "assignmentAdded");
             sendRedirect(actionRequest, actionResponse);
         }
         catch (AssignmentValidationException ave) {
+
+            // Get error messages from the service layer.
+            ave.getErrors().forEach(key -> SessionErrors.add(actionRequest, key));
 
             ave.printStackTrace();
             actionResponse.setRenderParameter(
                     "mvcRenderCommandName", MVCCommandNames.EDIT_ASSIGNMENT);
         }
         catch (PortalException pe) {
+
+            // Set error messages from the service layer.
+            SessionErrors.add(actionRequest, "serviceErrorDetails", pe);
             pe.printStackTrace();
+
+
             actionResponse.setRenderParameter(
                     "mvcRenderCommandName", MVCCommandNames.EDIT_ASSIGNMENT);
         }
     }
+
     @Reference
     protected AssignmentLocalService _assignmentLocalService;
+
 }
