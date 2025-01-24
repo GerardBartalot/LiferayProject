@@ -8,6 +8,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.training.gradebook.exception.AssignmentValidationException;
 import com.liferay.training.gradebook.model.Assignment;
@@ -15,6 +16,8 @@ import com.liferay.training.gradebook.service.AssignmentLocalService;
 import com.liferay.training.gradebook.web.constants.GradebookPortletKeys;
 import com.liferay.training.gradebook.web.constants.MVCCommandNames;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import org.osgi.service.component.annotations.Component;
@@ -42,14 +45,16 @@ public class EditAssignmentMVCActionCommand extends BaseMVCActionCommand {
                 ServiceContextFactory.getInstance(Assignment.class.getName(), actionRequest);
         // Get parameters from the request.
         long assignmentId = ParamUtil.getLong(actionRequest, "assignmentId");
-        String title = ParamUtil.getString(actionRequest, "title", "");
-        String description = ParamUtil.getString(actionRequest, "description", "");
-        Date dueDate = ParamUtil.getDate(actionRequest, "dueDate", DateFormatFactoryUtil.getSimpleDateFormat("MM-dd-YYYY"));
+        // Use LocalizationUtil to get a localized parameter.
+        Map<Locale, String> titleMap =
+                LocalizationUtil.getLocalizationMap(actionRequest, "title");
+        String description = ParamUtil.getString(actionRequest, "description", null);
+        Date dueDate = ParamUtil.getDate(actionRequest, "dueDate", null);
         try {
             // Call the service to update the assignment
 
             _assignmentLocalService.updateAssignment(
-                    assignmentId, title, description, dueDate, serviceContext);
+                    assignmentId, titleMap, description, dueDate, serviceContext);
 
             // Set the success message.
             SessionMessages.add(actionRequest, "assignmentUpdated");

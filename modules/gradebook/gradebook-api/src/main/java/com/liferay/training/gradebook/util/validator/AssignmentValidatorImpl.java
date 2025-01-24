@@ -1,12 +1,17 @@
 package com.liferay.training.gradebook.util.validator;
 
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.training.gradebook.exception.AssignmentValidationException;
 import com.liferay.training.gradebook.validator.AssignmentValidator;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import org.osgi.service.component.annotations.Component;
+
 @Component(
         immediate = true,
         service = AssignmentValidator.class
@@ -17,17 +22,17 @@ public class AssignmentValidatorImpl implements AssignmentValidator {
      * {AssignmentValidationExceptionException} if the assignment values are not
      * valid.
      *
-     * @param title
+     * @param titleMap
      * @param description
      * @param dueDate
      * @throws AssignmentValidationExceptionException
      */
     public void validate(
-            String title, String description, Date dueDate)
+            Map<Locale, String> titleMap, String description, Date dueDate)
             throws AssignmentValidationException {
         List<String> errors = new ArrayList<>();
 
-        if (!isAssignmentValid(title, description, dueDate, errors)) {
+        if (!isAssignmentValid(titleMap, description, dueDate, errors)) {
             throw new AssignmentValidationException(errors);
         }
     }
@@ -35,7 +40,7 @@ public class AssignmentValidatorImpl implements AssignmentValidator {
      * Returns <code>true</code> if the given fields are valid for an
      * assignment.
      *
-     * @param title
+     * @param titleMap
      * @param description
      * @param dueDate
      * @param errors
@@ -43,10 +48,10 @@ public class AssignmentValidatorImpl implements AssignmentValidator {
      * <code>false</code>
      */
     private boolean isAssignmentValid(
-            final String title, final String description,
+            final Map<Locale, String> titleMap, final String description,
             final Date dueDate, final List<String> errors) {
         boolean result = true;
-        result &= isTitleValid(title, errors);
+        result &= isTitleValid(titleMap, errors);
         result &= isDueDateValid(dueDate, errors);
         result &= isDescriptionValid(description, errors);
         return result;
@@ -96,18 +101,26 @@ public class AssignmentValidatorImpl implements AssignmentValidator {
      * Returns <code>true</code> if title is valid for an assignment. If not
      * valid, an error message is added to the errors list.
      *
-     * @param title
+     * @param titleMap
      * @param errors
      * @return boolean <code>true</code> if the title is valid, otherwise
      * <code>false</code>
      */
     private boolean isTitleValid(
-            final String title, final List<String> errors) {
+            final Map<Locale, String> titleMap, final List<String> errors) {
         boolean result = true;
-        // Verify the Title has something
-        if (title == "") {
+        // Verify the map has something
+        if (MapUtil.isEmpty(titleMap)) {
             errors.add("assignmentTitleEmpty");
             result = false;
+        }
+        else {
+            // Get the default locale.
+            Locale defaultLocale = LocaleUtil.getSiteDefault();
+            if ((Validator.isBlank(titleMap.get(defaultLocale)))) {
+                errors.add("assignmentTitleEmpty");
+                result = false;
+            }
         }
         return result;
     }

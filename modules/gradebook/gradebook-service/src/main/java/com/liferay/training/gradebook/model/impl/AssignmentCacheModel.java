@@ -69,12 +69,12 @@ public class AssignmentCacheModel
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
-		sb.append(", title=");
-		sb.append(title);
 		sb.append(", description=");
 		sb.append(description);
 		sb.append(", dueDate=");
 		sb.append(dueDate);
+		sb.append(", title=");
+		sb.append(title);
 		sb.append("}");
 
 		return sb.toString();
@@ -110,13 +110,6 @@ public class AssignmentCacheModel
 			assignmentImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
-		if (title == null) {
-			assignmentImpl.setTitle("");
-		}
-		else {
-			assignmentImpl.setTitle(title);
-		}
-
 		if (description == null) {
 			assignmentImpl.setDescription("");
 		}
@@ -129,6 +122,13 @@ public class AssignmentCacheModel
 		}
 		else {
 			assignmentImpl.setDueDate(new Date(dueDate));
+		}
+
+		if (title == null) {
+			assignmentImpl.setTitle("");
+		}
+		else {
+			assignmentImpl.setTitle(title);
 		}
 
 		assignmentImpl.resetOriginalValues();
@@ -148,9 +148,9 @@ public class AssignmentCacheModel
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
-		title = objectInput.readUTF();
 		description = objectInput.readUTF();
 		dueDate = objectInput.readLong();
+		title = objectInput.readUTF();
 	}
 
 	@Override
@@ -173,13 +173,6 @@ public class AssignmentCacheModel
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
 
-		if (title == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(title);
-		}
-
 		if (description == null) {
 			objectOutput.writeUTF("");
 		}
@@ -188,6 +181,13 @@ public class AssignmentCacheModel
 		}
 
 		objectOutput.writeLong(dueDate);
+
+		if (title == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(title);
+		}
 	}
 
 	public long assignmentId;
@@ -197,8 +197,8 @@ public class AssignmentCacheModel
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
-	public String title;
 	public String description;
 	public long dueDate;
+	public String title;
 
 }

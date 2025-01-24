@@ -126,11 +126,11 @@ public class AssignmentPersistenceTest {
 
 		newAssignment.setModifiedDate(RandomTestUtil.nextDate());
 
-		newAssignment.setTitle(RandomTestUtil.randomString());
-
 		newAssignment.setDescription(RandomTestUtil.randomString());
 
 		newAssignment.setDueDate(RandomTestUtil.nextDate());
+
+		newAssignment.setTitle(RandomTestUtil.randomString());
 
 		_assignments.add(_persistence.update(newAssignment));
 
@@ -155,13 +155,13 @@ public class AssignmentPersistenceTest {
 			Time.getShortTimestamp(existingAssignment.getModifiedDate()),
 			Time.getShortTimestamp(newAssignment.getModifiedDate()));
 		Assert.assertEquals(
-			existingAssignment.getTitle(), newAssignment.getTitle());
-		Assert.assertEquals(
 			existingAssignment.getDescription(),
 			newAssignment.getDescription());
 		Assert.assertEquals(
 			Time.getShortTimestamp(existingAssignment.getDueDate()),
 			Time.getShortTimestamp(newAssignment.getDueDate()));
+		Assert.assertEquals(
+			existingAssignment.getTitle(), newAssignment.getTitle());
 	}
 
 	@Test
@@ -198,8 +198,8 @@ public class AssignmentPersistenceTest {
 		return OrderByComparatorFactoryUtil.create(
 			"Gradebook_Assignment", "assignmentId", true, "groupId", true,
 			"companyId", true, "userId", true, "userName", true, "createDate",
-			true, "modifiedDate", true, "title", true, "description", true,
-			"dueDate", true);
+			true, "modifiedDate", true, "description", true, "dueDate", true,
+			"title", true);
 	}
 
 	@Test
@@ -428,11 +428,11 @@ public class AssignmentPersistenceTest {
 
 		assignment.setModifiedDate(RandomTestUtil.nextDate());
 
-		assignment.setTitle(RandomTestUtil.randomString());
-
 		assignment.setDescription(RandomTestUtil.randomString());
 
 		assignment.setDueDate(RandomTestUtil.nextDate());
+
+		assignment.setTitle(RandomTestUtil.randomString());
 
 		_assignments.add(_persistence.update(assignment));
 

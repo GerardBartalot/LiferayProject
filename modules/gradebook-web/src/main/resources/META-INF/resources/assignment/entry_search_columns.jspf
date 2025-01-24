@@ -27,7 +27,7 @@
             </h5>
             <h4>
                 <aui:a href="${viewAssignmentURL}">
-                    ${entry.title}
+                    ${entry.getTitle(locale)}
                 </aui:a>
             </h4>
         </liferay-ui:search-container-column-text>
@@ -37,16 +37,16 @@
     <%-- Card view --%>
     <c:when
             test='${assignmentsManagementToolbarDisplayContext.getDisplayStyle().equals("icon")}'>
-        <%--
-        row.setCssClass("lfr-asset-item");
-        --%>
+        <%
+            row.setCssClass("lfr-asset-item");
+        %>
         <liferay-ui:search-container-column-text>
             <%-- Vertical card. --%>
             <liferay-frontend:icon-vertical-card
                     actionJsp="/assignment/entry_actions.jsp"
                     actionJspServletContext="<%= application %>"
                     icon="cards2" resultRow="${row}"
-                    title="${entry.title}"
+                    title="${entry.getTitle(locale)}"
                     url="${viewAssignmentURL}">
                 <liferay-frontend:vertical-card-sticker-bottom>
 
@@ -72,7 +72,7 @@
         <liferay-ui:search-container-column-text
                 href="${viewAssignmentURL}"
                 name="title"
-                value="<%= entry.getTitle() %>"
+                value="<%= entry.getTitle(locale) %>"
         />
         <liferay-ui:search-container-column-user
                 name="author"

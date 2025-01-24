@@ -58,7 +58,7 @@
                         </h5>
                         <h4>
                             <aui:a href="${viewAssignmentURL}">
-                                ${entry.title}
+                                ${entry.getTitle(locale)}
                             </aui:a>
                         </h4>
                     </liferay-ui:search-container-column-text>
@@ -72,7 +72,7 @@
                     <liferay-ui:search-container-column-text
                             href="${viewAssignmentURL}"
                             name="title"
-                            value="<%= entry.getTitle() %>"
+                            value="<%= entry.getTitle(locale) %>"
                     />
                     <liferay-ui:search-container-column-user
                             name="author"
